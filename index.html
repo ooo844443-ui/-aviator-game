@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a0b2e, #4a148c);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .game-container {
+            width: 90%;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .plane-area {
+            height: 200px;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        .multiplier {
+            z-index: 2;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-start { background-color: #4caf50; color: white; }
+        .btn-cashout { background-color: #ff9800; color: white; display: none; }
+        .history {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="plane-area">
+            <span class="multiplier" id="score">1.00x</span>
+        </div>
+        <div class="history">النتائج السابقة: 2.5x | 1.1x | 10.2x</div>
+        <div class="controls">
+            <button class="btn-start" onclick="startGame()">🚀 ابدأ اللعب</button>
+            <button class="btn-cashout" onclick="cashOut()">💰 سحب الأرباح</button>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            let score = 1.00;
+            const element = document.getElementById('score');
+            const btnStart = document.querySelector('.btn-start');
+            const btnCashout = document.querySelector('.btn-cashout');
+            
+            btnStart.style.display = 'none';
+            btnCashout.style.display = 'block';
+            element.style.color = 'white';
+
+            let interval = setInterval(() => {
+                score += 0.05;
+                element.innerText = score.toFixed(2) + 'x';
+                
+                // محاكاة السقوط (Crash) عشوائياً
+                if (Math.random() > 0.95) {
+                    clearInterval(interval);
+                    element.style.color = '#f44336';
+                    element.innerText = "Crashed!";
+                    btnStart.style.display = 'block';
+                    btnCashout.style.display = 'none';
+                }
+            }, 100);
+        }
+
+        function cashOut() {
+            alert("تم سحب الأرباح بنجاح!");
+            location.reload();
+        }
+    </script>
+</body>
+</html>
